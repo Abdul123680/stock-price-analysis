@@ -44,3 +44,21 @@ model.fit(X_train, y_train)
 
 # Predict on the test set
 y_pred = model.predict(X_test)
+
+# Calculate and print evaluation metrics
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f'Mean Absolute Error: {mae:.2f}')
+print(f'R^2 Score: {r2:.2f}')
+
+# Add the predictions to the test set for comparison
+X_test['Actual_Pct_Diff'] = y_test
+X_test['Predicted_Pct_Diff'] = y_pred
+
+# Calculate the actual and predicted prices 2 weeks later based on percentage differences
+X_test['Actual_Close_2w_later'] = X_test['Close'] * (1 + X_test['Actual_Pct_Diff'] / 100)
+X_test['Predicted_Close_2w_later'] = X_test['Close'] * (1 + X_test['Predicted_Pct_Diff'] / 100)
+
+# Display comparison
+print(X_test[['Close', 'Actual_Close_2w_later', 'Predicted_Close_2w_later']].head(10))
