@@ -19,8 +19,9 @@ data['Pct_Diff'] = ((data['Close_2w_later'] - data['Close']) / data['Close']) * 
 # Round all numerical columns to 2 decimal places
 data = data.round(2)
 
+# Drop rows with NaN values (due to rolling mean and shift operations)
+data.dropna(inplace=True)
+
 # Export the data to an Excel file
 data.to_excel('tesla_stock_data.xlsx', index=True)
 
-# Display the data
-print(data.tail(20))
