@@ -1,4 +1,7 @@
 import yfinance as yf
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, r2_score
 
 # Download Tesla stock data for the last 5 years
 ticker = 'TSLA'
@@ -25,3 +28,9 @@ data.dropna(inplace=True)
 # Export the data to an Excel file
 data.to_excel('tesla_stock_data.xlsx', index=True)
 
+# Features and target variable
+features = ['Close', 'MA_30', 'Diff_MA', 'Volume']
+target = 'Pct_Diff'
+
+X = data[features]
+y = data[target]
